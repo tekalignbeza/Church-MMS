@@ -1,4 +1,4 @@
-##Member Management Service (MMS)
+#Member Management Service (MMS)
 
 MMS is application intended to register and manager members, record attendance and track contribution of each members. It also allow to schedule meetings and send notification to members of the church. 
 
@@ -51,13 +51,14 @@ MMS is application intended to register and manager members, record attendance a
 ####Domain driven design (DDD)
 	
 		Contribution
-		  |	
-
-		Member  -  Attendance -  Meeting
 		
-									|
+		   |	
 
-								 Schedule
+		 Member  -  Attendance -  Meeting
+		
+			     		   |
+
+			       		Schedule
 	
 	
 ####Software Implementation layers 
