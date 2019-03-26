@@ -1,23 +1,23 @@
-#Member Management Service (MMS)
+# Member Management Service (MMS)
 
 MMS is application intended to register and manager members, record attendance and track contribution of each members. It also allow to schedule meetings and send notification to members of the church. 
 
-###Functional Requirement
+### Functional Requirement
 
-####Member Service
+#### Member Service
 		Add New member.
 		Update existing members.
 		Remove member.
 		Ingest batch from existing data source ( other db or excel) 
 		Generate digital ID with barcode(send to their mobile) or hard copy
 	
-####Meeting Service
+#### Meeting Service
 		
 		Schedule new Meetings.
 		Send Meeting notification for each members (with their digitalID)
 		Track attendance of each member using there barcode 
 		
-###Non Functional Requirement 
+### Non Functional Requirement 
 	
 		Cloud based service
 		Accessibility
@@ -31,7 +31,7 @@ MMS is application intended to register and manager members, record attendance a
 		Fault tolerance
 		Interoperability
 
-###Tech Stack
+### Tech Stack
 
 	Java
 	Spring boot
@@ -45,10 +45,10 @@ MMS is application intended to register and manager members, record attendance a
 	AWS/GCP/Openshift
 	
 
-###High level Architectural design 
+### High level Architectural design 
 
 
-####Domain driven design (DDD)
+#### Domain driven design (DDD)
 	
 		Contribution
 		
@@ -56,14 +56,14 @@ MMS is application intended to register and manager members, record attendance a
 
 		 Member  -  Attendance -  Meeting
 		
-			     		   |
+			     		     |
 
-			       		Schedule
+			       		  Schedule
 	
 	
-####Software Implementation layers 
+#### Software Implementation layers 
 		
-		Presentation/View Layer
+        Presentation/View Layer
 		
 			Controllers + Swagger Documentation + SDK (for other services to consume) 
 				Member
