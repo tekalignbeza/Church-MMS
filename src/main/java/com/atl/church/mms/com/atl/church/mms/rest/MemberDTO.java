@@ -2,6 +2,7 @@ package com.atl.church.mms.com.atl.church.mms.rest;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 @Builder
 @Data
@@ -18,4 +19,6 @@ public class MemberDTO {
 	private String city;
 	private String state;
 	private String zipCode;
+	@Getter
+	private String idCard;
 }
