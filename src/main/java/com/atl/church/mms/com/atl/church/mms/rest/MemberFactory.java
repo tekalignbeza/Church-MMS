@@ -1,7 +1,9 @@
 package com.atl.church.mms.com.atl.church.mms.rest;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MemberFactory {
 
 	public Member toDomain(MemberDTO dto){
@@ -18,6 +20,7 @@ public class MemberFactory {
 				.Address2(domain.getAddress2()).age(domain.getAge())
 				.cellPhone(domain.getCellPhone()).city(domain.getCity())
 				.email(domain.getEmail()).firstName(domain.getFirstName())
+				.idCard(domain.getIdCard())
 				.id(domain.getId()).lastName(domain.getLastName()).middleName(domain.getMiddleName())
 				.state(domain.getState()).zipCode(domain.getZipCode()).build();
 	}

@@ -28,6 +28,7 @@ public class Member {
 	private boolean isActive;
 	private String password;
 	private Role role;
+	private String idCard;
 
 	public enum Role{
 		User,Admin;
