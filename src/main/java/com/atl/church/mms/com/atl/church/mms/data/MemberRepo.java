@@ -1,15 +1,12 @@
 package com.atl.church.mms.com.atl.church.mms.data;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
+import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepo {
-	Member getMember(Long id);
+import java.util.List;
 
-	Member createMember(Member member);
+public interface MemberRepo extends JpaRepository<Member, Long>  {
 
-	Member updateMember(Member member);
-
-	boolean deleteMember(Long id);
-
-	boolean sendEmail(Long id, String msg);
+	List<Member> findByFirstName(String firstName);
 }

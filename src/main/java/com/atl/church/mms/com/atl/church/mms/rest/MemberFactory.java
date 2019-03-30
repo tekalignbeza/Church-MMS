@@ -3,6 +3,9 @@ package com.atl.church.mms.com.atl.church.mms.rest;
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class MemberFactory {
 
@@ -23,5 +26,9 @@ public class MemberFactory {
 				.idCard(domain.getIdCard())
 				.id(domain.getId()).lastName(domain.getLastName()).middleName(domain.getMiddleName())
 				.state(domain.getState()).zipCode(domain.getZipCode()).build();
+	}
+
+	public List<MemberDTO> toDtos(List<Member> domains){
+		return domains.stream().map(d-> toDto(d)).collect(Collectors.toList());
 	}
 }

@@ -1,6 +1,7 @@
 package com.atl.church.mms.com.atl.church.mms.service;
 import com.atl.church.mms.com.atl.church.mms.data.MemberRepo;
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
+import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
 import com.atl.church.mms.com.atl.church.mms.utils.ImageResizer;
 import com.atl.church.mms.com.atl.church.mms.utils.ImageStorage;
 import net.sourceforge.barbecue.Barcode;
@@ -21,6 +22,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -35,22 +38,29 @@ public class MemberServiceImp implements MemberService {
 
 	@Override
 	public Member getMember(Long id){
-		return memberRepo.getMember(id);
+		Optional<Member> member = memberRepo.findById(id);
+		return member.get();
 	}
 
 	@Override
 	public Member createMember(Member member){
-		return memberRepo.createMember(member);
+		return memberRepo.save(member);
 	}
 
 	@Override
 	public Member updateMember(Member member){
-		return memberRepo.updateMember(member);
+		return memberRepo.save(member);
 	}
 
 	@Override
 	public boolean deleteMember(Long id){
-		return memberRepo.deleteMember(id);
+		 memberRepo.deleteById(id);
+		 return true;
+	}
+
+	@Override
+	public List<Member> search(MemberSearchCriteria searchCriteria) {
+		return memberRepo.findByFirstName(searchCriteria.getFirstName());
 	}
 
 	@Override

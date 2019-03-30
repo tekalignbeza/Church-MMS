@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 
 public interface ImageStorage {
 
-	public static String RESOURCE_LOCATION_ROOT = "classpath:images/";
 	public static String RESOURCE_LOCATION_TEMP = "classpath:images/tmp";
 	public static String RESOURCE_LOCATION_PHOTO = "classpath:images/photo";
 	public static String RESOURCE_LOCATION_BARCODE = "classpath:images/barcode";
