@@ -14,10 +14,7 @@ import java.io.IOException;
 public class ImageResizerImpl implements ImageResizer {
 
 
-	public BufferedImage resize(BufferedImage bufferedImage) throws Exception {
-		//todo externalize height and width configs
-		final int height = 300;
-		final int width = 250;
+	public BufferedImage resize(BufferedImage bufferedImage,int width,int height) throws Exception {
 		try {
 			return Thumbnails.of(bufferedImage)
 					.height(height)
@@ -28,9 +25,9 @@ public class ImageResizerImpl implements ImageResizer {
 		}
 	}
 
-	public BufferedImage resize(File file) throws Exception {
+	public BufferedImage resize(File file,int width,int height) throws Exception {
 		BufferedImage bufferedImage = ImageIO.read(file);
-		return resize(bufferedImage);
+		return resize(bufferedImage,width,height);
 	}
 
 }

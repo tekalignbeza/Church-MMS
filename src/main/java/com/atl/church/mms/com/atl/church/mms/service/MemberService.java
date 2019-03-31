@@ -23,7 +23,7 @@ public interface MemberService {
 
 	boolean sendEmail(Long id, String msg);
 
-	void upload(File tempFile, String id);
+	void upload(File tempFile, Long id);
 
 	InputStream getMemberIdCard(String id) throws IOException;
 }

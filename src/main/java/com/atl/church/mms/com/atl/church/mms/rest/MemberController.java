@@ -84,15 +84,11 @@ public class MemberController {
 	public ResponseEntity<String> singleFileUpload(
 			@ApiParam(name = "file", value = "Select the file to Upload", required = true)
 			@RequestPart("file") MultipartFile file,
-			@RequestParam("memberId") String memberId) throws Exception {
+			@RequestParam("memberId") Long memberId) throws Exception {
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("Please select a file to upload", HttpStatus.BAD_REQUEST);
 		}
-		byte[] bytes = file.getBytes();
-		String extension = file.getOriginalFilename().split("\\.")[1];
-		File tempFile = new File(ImageStorage.RESOURCE_LOCATION_TEMP+"/"+memberId+"."+extension);
-		OutputStream outStream = new FileOutputStream(tempFile);
-		outStream.write(bytes);
+		File tempFile = imageStorage.store(file,memberId+"");
 		memberService.upload(tempFile,memberId);
 		return new ResponseEntity<String>("You successfully uploaded '" + file.getOriginalFilename()+" '", HttpStatus.OK);
 	}
