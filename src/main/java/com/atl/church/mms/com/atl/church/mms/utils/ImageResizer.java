@@ -7,8 +7,8 @@ import java.io.File;
 public interface ImageResizer {
 
 
-	BufferedImage resize(BufferedImage bufferedImage) throws Exception;
-	BufferedImage resize(File file) throws Exception;
+	BufferedImage resize(BufferedImage bufferedImage,int width,int height) throws Exception;
+	BufferedImage resize(File file,int width,int height) throws Exception;
 
 
 }

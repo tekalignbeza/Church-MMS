@@ -11,6 +11,27 @@ import javax.persistence.Id;
 @Data
 @Builder
 public class Member {
+
+	public Member() {}
+	public Member(Long id, String firstName, String middleName, String lastName, int age, String cellPhone, String email, String address1, String address2, String city, String state, String zipCode, boolean isActive, String password, Role role, String idCard) {
+		this.id = id;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.age = age;
+		this.cellPhone = cellPhone;
+		this.email = email;
+		Address1 = address1;
+		Address2 = address2;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+		this.isActive = isActive;
+		this.password = password;
+		this.role = role;
+		this.idCard = idCard;
+	}
+
 	@Id
 	@GeneratedValue
 	private Long id;
