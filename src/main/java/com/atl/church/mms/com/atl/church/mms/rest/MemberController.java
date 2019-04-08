@@ -9,6 +9,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -81,15 +84,19 @@ public class MemberController {
 
 	@ApiOperation(produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,value = "Upload a member photo as Multi part File with Request parameter memberId")
 	@PostMapping(value = "/upload", consumes =  MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<String> singleFileUpload(
+	public ResponseEntity<Resource> singleFileUpload(
 			@ApiParam(name = "file", value = "Select the file to Upload", required = true)
 			@RequestPart("file") MultipartFile file,
 			@RequestParam("memberId") Long memberId) throws Exception {
 		if (file.isEmpty()) {
-			return new ResponseEntity<String>("Please select a file to upload", HttpStatus.BAD_REQUEST);
+			//return new ResponseEntity<String>("Please select a file to upload", HttpStatus.BAD_REQUEST);
 		}
 		File tempFile = imageStorage.store(file,memberId+"");
-		memberService.upload(tempFile,memberId);
-		return new ResponseEntity<String>("You successfully uploaded '" + file.getOriginalFilename()+" '", HttpStatus.OK);
-	}
+		File uploaded = memberService.upload(tempFile,memberId);
+		Resource resource =  new FileSystemResource(uploaded);
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+		}
 }

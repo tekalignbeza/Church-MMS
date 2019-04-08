@@ -1,4 +1,4 @@
-package com.atl.church.mms.com.atl.church.mms.service;
+package com.atl.church.mms.com.atl.church.mms.utils;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
 

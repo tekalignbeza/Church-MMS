@@ -2,6 +2,7 @@ package com.atl.church.mms.com.atl.church.mms.service;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
+import com.atl.church.mms.com.atl.church.mms.utils.EmailService;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +22,9 @@ public interface MemberService {
 
 	List<Member> search(MemberSearchCriteria searchCriteria);
 
-	boolean sendEmail(Long id, String msg);
+	boolean sendEmail(Long id, EmailService.Types types) throws Exception;
 
-	void upload(File tempFile, Long id);
+	File upload(File tempFile, Long id);
 
 	InputStream getMemberIdCard(String id) throws IOException;
 }
