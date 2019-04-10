@@ -1,12 +1,10 @@
-package com.atl.church.mms.com.atl.church.mms.service;
+package com.atl.church.mms.com.atl.church.mms.utils;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
-import com.atl.church.mms.com.atl.church.mms.utils.ImageResizer;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeFactory;
 import net.sourceforge.barbecue.BarcodeImageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -50,13 +48,17 @@ public class UploadServiceImp implements UploadService {
 		BufferedImage idCardBufferedImage = new BufferedImage(idWidth, idHeight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D idCard = idCardBufferedImage.createGraphics();
 		idCard.setColor(Color.WHITE);
-		idCard.fillRect(0, 0, idWidth, idHeight);
+		idCard.fillRect(1, 1, idWidth-2, idHeight-2);
 		idCard.setColor(Color.BLACK);
 		drawPhoto(idCard,tempFile);
 		drawBarcode(idCard,member);
 		drawTxt(idCard,member);
 		idCard.dispose();
 		return idCardBufferedImage;
+	}
+
+	private void drawBorderLine(Graphics2D idCard){
+
 	}
 
 	@Override
@@ -68,7 +70,7 @@ public class UploadServiceImp implements UploadService {
 
 	@Override
 	public BufferedImage generateBarcode(Member member) throws Exception {
-		Barcode barcode = BarcodeFactory.createCode128B(member.getLastName()+member.getId());
+		Barcode barcode = BarcodeFactory.createCode128B(String.format("%04d", member.getId()));
 		barcode.setBarWidth(2);
 		barcode.setBarHeight(40);
 		return BarcodeImageHandler.getImage( barcode);
