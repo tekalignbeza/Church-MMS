@@ -7,7 +7,17 @@ import lombok.Data;
 @Data
 public class MemberSearchCriteria {
 
-	private Long id;
+	public MemberSearchCriteria(String firstName, String middleName, String lastName, String cellPhone, String email) {
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.cellPhone = cellPhone;
+		this.email = email;
+	}
+
+	public MemberSearchCriteria() {
+	}
+
 	private String firstName;
 	private String middleName;
 	private String lastName;
