@@ -1,22 +1,21 @@
 package com.atl.church.mms.com.atl.church.mms.service;
+
+import com.atl.church.mms.com.atl.church.mms.data.AttendanceRepo;
 import com.atl.church.mms.com.atl.church.mms.data.MeetingRepo;
+import com.atl.church.mms.com.atl.church.mms.domain.Attendance;
+import com.atl.church.mms.com.atl.church.mms.domain.Email;
 import com.atl.church.mms.com.atl.church.mms.domain.Meeting;
+import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.utils.EmailService;
-import com.atl.church.mms.com.atl.church.mms.utils.ImageStorage;
-import com.atl.church.mms.com.atl.church.mms.utils.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,12 +24,11 @@ public class MeetingServiceImp implements MeetingService {
 	@Autowired
 	private MeetingRepo meetingRepo;
 	@Autowired
-	private UploadService uploadService;
+	private MemberService memberService;
 	@Autowired
-	private ImageStorage imageStorage;
+	private AttendanceRepo attendanceRepo;
 	@Autowired
 	private EmailService emailService;
-
 	@Override
 	public Meeting getMeeting(Long id){
 		Optional<Meeting> meeting = meetingRepo.findById(id);
@@ -43,9 +41,22 @@ public class MeetingServiceImp implements MeetingService {
 	}
 
 	@Override
-	public void inviteMeeting(Meeting meeting) {
+	public void inviteMeeting(Long id) {
 		try {
-			emailService.sendEmail(meeting,EmailService.Types.meeting);
+			Meeting meeting = getMeeting(id);
+			List<Member> members = memberService.getAll(false);
+			for(Member member:members){
+				Map<String,Object> data = new HashMap<>();
+				data.put("fullName",member.getFirstName()+" "+member.getLastName());
+				data.put("file",member.getIdCard());
+				data.put("date",meeting.getDateTime().toString());
+				data.put("title",meeting.getTitle());
+				data.put("address",meeting.getAddress1()+" "+(meeting.getAddress2()==null?"":meeting.getAddress2())+", "+meeting.getCity()+", "+meeting.getState()+", "+meeting.getZipCode());
+				data.put("agenda",meeting.getAgenda());
+				data.put("cellPhone",meeting.getCellPhone());
+				Email email = Email.builder().from("debrebisrat.mms@gmail.com").to(member.getEmail()).subject(meeting.getTitle()).reason(Email.Reason.meeting).data(data).build();
+				emailService.sendEmail(email);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,10 +74,13 @@ public class MeetingServiceImp implements MeetingService {
 	}
 
 	@Override
-	public boolean sendEmail(Long id,EmailService.Types types) throws Exception {
-		emailService.sendEmail(getMeeting(id),types);
-		return true;
+	public void meetingAttendance(Attendance attendance) {
+		attendanceRepo.save(attendance);
 	}
 
+	@Override
+	public List<Member> getAttendanceByMeetingId(Long id) {
+		return attendanceRepo.findByMeetingId(id).stream().map(r->r.getMember()).collect(Collectors.toList());
+	}
 
 }

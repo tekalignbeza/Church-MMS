@@ -9,4 +9,11 @@ import java.util.List;
 public interface MemberRepo extends JpaRepository<Member, Long>  {
 
 	List<Member> findByFirstName(String firstName);
+	List<Member> findByMiddleName(String firstName);
+	List<Member> findByLastName(String firstName);
+	List<Member> findByEmail(String firstName);
+	List<Member> findByCellPhone(String firstName);
+
+
+
 }

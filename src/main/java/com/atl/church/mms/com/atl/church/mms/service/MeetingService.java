@@ -1,6 +1,8 @@
 package com.atl.church.mms.com.atl.church.mms.service;
 
+import com.atl.church.mms.com.atl.church.mms.domain.Attendance;
 import com.atl.church.mms.com.atl.church.mms.domain.Meeting;
+import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.utils.EmailService;
 
 import java.io.File;
@@ -15,12 +17,13 @@ public interface MeetingService {
 
 	Meeting createMeeting(Meeting meeting);
 
-	void inviteMeeting(Meeting meeting);
+	void inviteMeeting(Long id);
 
 	Meeting updateMeeting(Meeting meeting);
 
 	boolean deleteMeeting(Long id);
 
-	boolean sendEmail(Long id, EmailService.Types types) throws Exception;
+	void meetingAttendance(Attendance attendance);
 
+	List<Member> getAttendanceByMeetingId(Long id);
 }

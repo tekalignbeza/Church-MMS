@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:remove="all">Template for HTML email with meeting invitation</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		body {
+			background-color: white;
+			color: black;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+	</style>
+</head>
+<br>
+
+<h1>Debre Bisrat meeting invitation </h1>
+<p> Dear <span th:text="${fullName}"></span>:</p>
+<p>Hope you’ve been well. We would like to invite you to attend a meeting on  <span th:text="${date}"></span> to talk about <span th:text="${title}"></span>. Lets meet at <span th:text="${address}"></span>.</p>
+<p>To give you an idea of what we wanted to talk about at the meeting, we have made a small list below:</p>
+<p><span th:text="${agenda}"></span>:</p>
+<p>If you have any question or suggestion, please let us know by <span th:text="${cellPhone}"></span></p>
+<p>Kind Regards,</p>
+</br>
+<p>Click on the link below to access your ID card.</p>
+</body>
+</html>

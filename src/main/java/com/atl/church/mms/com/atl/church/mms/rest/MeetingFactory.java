@@ -22,6 +22,7 @@ public class MeetingFactory {
 		return MeetingDTO.builder().Address1(domain.getAddress1())
 				.Address2(domain.getAddress2()).agenda(domain.getAgenda())
 				.cellPhone(domain.getCellPhone()).city(domain.getCity())
+				.id(domain.getId())
 				.email(domain.getEmail()).dateTime(domain.getDateTime()).duration(domain.getDuration())
 				.state(domain.getState()).title(domain.getTitle()).zipCode(domain.getZipCode()).build();
 	}

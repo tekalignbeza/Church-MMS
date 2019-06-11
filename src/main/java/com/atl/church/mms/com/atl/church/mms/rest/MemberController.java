@@ -89,6 +89,7 @@ public class MemberController {
 			@RequestPart("file") MultipartFile file,
 			@RequestParam("memberId") Long memberId) throws Exception {
 		if (file.isEmpty()) {
+			throw new Exception("Please select a file to upload");
 			//return new ResponseEntity<String>("Please select a file to upload", HttpStatus.BAD_REQUEST);
 		}
 		File tempFile = imageStorage.store(file,memberId+"");

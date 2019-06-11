@@ -1,18 +1,15 @@
 package com.atl.church.mms.com.atl.church.mms.rest;
 
 
+import com.atl.church.mms.com.atl.church.mms.domain.Attendance;
 import com.atl.church.mms.com.atl.church.mms.domain.Meeting;
+import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.service.MeetingService;
-import com.atl.church.mms.com.atl.church.mms.utils.ImageStorage;
+import com.atl.church.mms.com.atl.church.mms.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,11 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @Controller
@@ -35,13 +28,15 @@ import java.util.List;
 public class MeetingController {
 
 	@Autowired
-	ImageStorage imageStorage;
+	private MeetingService meetingService;
 	@Autowired
-	MeetingService meetingService;
+	private MemberService memberService;
 	@Autowired
 	private MeetingFactory meetingFactory;
+	@Autowired
+	private MemberFactory memberFactory;
 
-	@ApiOperation(value = "Get a meeting by Id or barCode")
+	@ApiOperation(value = "Get a meeting by Id")
 	@GetMapping("/{id}")
 	 ResponseEntity<MeetingDTO> getMeeting(@PathVariable String id){
 		Meeting meeting = meetingService.getMeeting(Long.parseLong(id));
@@ -55,10 +50,10 @@ public class MeetingController {
 		return new ResponseEntity<MeetingDTO>(meetingFactory.toDto(meeting),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Create new meeting")
+	@ApiOperation(value = "Send invite to all members")
 	@PostMapping("/invite")
-	ResponseEntity<String> inviteMeeting(@RequestBody MeetingDTO meetingDTO){
-		meetingService.createMeeting(meetingFactory.toDomain(meetingDTO));
+	ResponseEntity<String> inviteMeeting(@RequestBody long id){
+		meetingService.inviteMeeting(id);
 		return new ResponseEntity<String>("Meeting invitation sent ",HttpStatus.OK);
 	}
 
@@ -69,10 +64,26 @@ public class MeetingController {
 		return new ResponseEntity<MeetingDTO>(meetingFactory.toDto(meeting),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Remove a meeting by Id or barCode")
+	@ApiOperation(value = "Remove a meeting by Id")
 	@DeleteMapping("/{id}")
 	ResponseEntity<Boolean> deleteMeeting(@PathVariable String id){
 		return new ResponseEntity<Boolean>(meetingService.deleteMeeting(Long.parseLong(id)),HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Add meeting attendance")
+	@PostMapping("/attendance")
+	ResponseEntity<String> meetingAttendance(@RequestBody AttendanceDTO attendanceDTO){
+		Member member = memberService.getMember(attendanceDTO.getMemberId());
+		Meeting meeting = meetingService.getMeeting(attendanceDTO.getMeetingId());
+		Attendance attendance = Attendance.builder().meeting(meeting).member(member).build();
+		meetingService.meetingAttendance(attendance);
+		return new ResponseEntity<String>("Meeting invitation sent ",HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "get meeting attendance")
+	@GetMapping("/attendance/{id}")
+	ResponseEntity<List<MemberDTO>> meetingAttendance(@PathVariable Long id){
+		List members = meetingService.getAttendanceByMeetingId(id);
+		return new ResponseEntity<List<MemberDTO>>(memberFactory.toDtos(members),HttpStatus.OK);
+	}
 }

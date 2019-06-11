@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:remove="all">Template for HTML email with registration</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		body {
+			background-color: white;
+			text-align: center;
+			color: black;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+	</style>
+</head>
+<body>
+
+<h1>Online Account Confirmation</h1>
+<p> Dear <span th:text="${fullName}"></span>:</p>
+<p>You have been successfully registered with Debre Bisrat St Gabriel Member management system. As a benefit to our members, we have created a website with your convenience in mind. The ability to view your account and update your profile is at your fingertips.</p>
+<p>Click on the link below to access your ID card.</p>
+<img src="idCard" th-src="|cid:idCard|" />
+</body>
+</html>

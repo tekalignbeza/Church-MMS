@@ -1,5 +1,6 @@
 package com.atl.church.mms.com.atl.church.mms.service;
 
+import com.atl.church.mms.com.atl.church.mms.domain.Email;
 import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
 import com.atl.church.mms.com.atl.church.mms.utils.EmailService;
@@ -22,7 +23,9 @@ public interface MemberService {
 
 	List<Member> search(MemberSearchCriteria searchCriteria);
 
-	boolean sendEmail(Long id, EmailService.Types types) throws Exception;
+	List<Member> getAll(boolean includeInactive);
+
+	boolean sendEmail(Email email) throws Exception;
 
 	File upload(File tempFile, Long id);
 
