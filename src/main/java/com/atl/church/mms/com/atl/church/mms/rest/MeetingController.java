@@ -3,7 +3,7 @@ package com.atl.church.mms.com.atl.church.mms.rest;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Attendance;
 import com.atl.church.mms.com.atl.church.mms.domain.Meeting;
-import com.atl.church.mms.com.atl.church.mms.domain.Member;
+import com.atl.church.mms.com.atl.church.mms.domain.Member2;
 import com.atl.church.mms.com.atl.church.mms.service.MeetingService;
 import com.atl.church.mms.com.atl.church.mms.service.MemberService;
 import io.swagger.annotations.Api;
@@ -73,9 +73,9 @@ public class MeetingController {
 	@ApiOperation(value = "Add meeting attendance")
 	@PostMapping("/attendance")
 	ResponseEntity<String> meetingAttendance(@RequestBody AttendanceDTO attendanceDTO){
-		Member member = memberService.getMember(attendanceDTO.getMemberId());
+		Member2 member2 = memberService.getMember(attendanceDTO.getMemberId());
 		Meeting meeting = meetingService.getMeeting(attendanceDTO.getMeetingId());
-		Attendance attendance = Attendance.builder().meeting(meeting).member(member).build();
+		Attendance attendance = Attendance.builder().meeting(meeting).member2(member2).build();
 		meetingService.meetingAttendance(attendance);
 		return new ResponseEntity<String>("Meeting invitation sent ",HttpStatus.OK);
 	}

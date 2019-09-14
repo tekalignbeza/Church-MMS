@@ -28,7 +28,7 @@ public class PaymentFactoryTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        paymentDTO = new PaymentDTO(new Long(3423432), new Long(98989), "this is not member","CASH", 20.0,"Monthly Payment","PAID","monthly");
+        paymentDTO = new PaymentDTO(new Long(3423432), new Long(98989), "this is not member2","CASH", 20.0,"Monthly Payment","PAID","monthly");
 
     }
 
@@ -67,7 +67,7 @@ public class PaymentFactoryTest {
                 .id(new Long(3423432))
                 .memberId(new Long(98989))
                 .paymentMethod(PaymentMethod.CASH)
-                .note("this is not a member")
+                .note("this is not a member2")
                 .status(PaymentStatus.PAID)
                 .type("Monthly Payment")
                 .amount(20.00)

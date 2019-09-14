@@ -1,7 +1,6 @@
 package com.atl.church.mms.com.atl.church.mms.rest;
 
 
-import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.service.PaymentService;
 import io.swagger.annotations.Api;
@@ -19,7 +18,7 @@ import java.net.URISyntaxException;
 
 @Controller
 @RequestMapping("/payment")
-@Api(value="member", description="Operations payment registering")
+@Api(value="member2", description="Operations payment registering")
 public class PaymentController {
 
     @Autowired

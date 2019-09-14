@@ -1,7 +1,8 @@
 package com.atl.church.mms.com.atl.church.mms.rest;
 
 
-import com.atl.church.mms.com.atl.church.mms.domain.Member;
+import com.atl.church.mms.com.atl.church.mms.domain.Member2;
+import com.atl.church.mms.com.atl.church.mms.domain.Family;
 import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
 import com.atl.church.mms.com.atl.church.mms.service.MemberService;
 import com.atl.church.mms.com.atl.church.mms.utils.ImageStorage;
@@ -27,18 +28,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 @Controller
 @RequestMapping("/member")
-@Api(value="member", description="Operations related to member services")
+@Api(value="member2", description="Operations related to member2 services")
 public class MemberController {
 
 	@Autowired
@@ -47,29 +42,60 @@ public class MemberController {
 	MemberService memberService;
 	@Autowired
 	private MemberFactory memberFactory;
+    @Autowired
+	private FamilyFactory familyFactory;
 
-	@ApiOperation(value = "Get a member by Id or barCode")
+	@ApiOperation(value = "Get a Family by Id or barCode")
+	@GetMapping("/family/{id}")
+	ResponseEntity<FamilyDTO> getFamily(@PathVariable String id){
+		Family family = memberService.getFamily(Long.parseLong(id));
+		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+	}
+
+
+	@ApiOperation(value = "Create new family")
+	@PostMapping("/family/")
+	ResponseEntity<FamilyDTO> createFamily(@RequestBody FamilyDTO familyDTO){
+		Family family = memberService.createFamily(familyFactory.toDomain(familyDTO));
+		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Add Member2 to family")
+	@PutMapping("/family/add")
+	ResponseEntity<FamilyDTO> addMemberToFamily(@RequestBody MemberDTO memberDTO){
+		Family family = memberService.addMemberToFamily(memberFactory.toDomain(memberDTO));
+		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Remove Member2 from family")
+	@PutMapping("/family/remove")
+	ResponseEntity<FamilyDTO> removeMemberFromFamily(@PathVariable String id){
+		Family family = memberService.deleteMemberFromFamily(Long.parseLong(id));
+		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Get a member2 by Id or barCode")
 	@GetMapping("/{id}")
 	 ResponseEntity<MemberDTO> getMember(@PathVariable String id){
-		Member member = memberService.getMember(Long.parseLong(id));
-		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member),HttpStatus.OK);
+		Member2 member2 = memberService.getMember(Long.parseLong(id));
+		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member2),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Create new member the photo should be uploaded after the member is created")
+	@ApiOperation(value = "Create new member2 the photo should be uploaded after the member2 is created")
 	@PostMapping("/")
 	ResponseEntity<MemberDTO> createMember(@RequestBody MemberDTO memberDTO){
-		Member member = memberService.createMember(memberFactory.toDomain(memberDTO));
-		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member),HttpStatus.OK);
+		Member2 member2 = memberService.createMember(memberFactory.toDomain(memberDTO));
+		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member2),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Update a member info")
+	@ApiOperation(value = "Update a member2 info")
 	@PutMapping("/")
 	ResponseEntity<MemberDTO> updateMember(@RequestBody MemberDTO memberDTO){
-		Member member = memberService.updateMember(memberFactory.toDomain(memberDTO));
-		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member),HttpStatus.OK);
+		Member2 member2 = memberService.updateMember(memberFactory.toDomain(memberDTO));
+		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member2),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Remove a member by Id or barCode")
+	@ApiOperation(value = "Remove a member2 by Id or barCode")
 	@DeleteMapping("/{id}")
 	ResponseEntity<Boolean> deleteMember(@PathVariable String id){
 		return new ResponseEntity<Boolean>(memberService.deleteMember(Long.parseLong(id)),HttpStatus.OK);
@@ -78,11 +104,11 @@ public class MemberController {
 	@ApiOperation(value = "Search members by different criteria")
 	@PostMapping("/search")
 	ResponseEntity<List<MemberDTO>> searchMember(@RequestBody MemberSearchCriteria searchCriteria){
-		List<Member> members = memberService.search(searchCriteria);
-		return new ResponseEntity<List<MemberDTO>> (memberFactory.toDtos(members),HttpStatus.OK);
+		List<Member2> member2s = memberService.search(searchCriteria);
+		return new ResponseEntity<List<MemberDTO>> (memberFactory.toDtos(member2s),HttpStatus.OK);
 	}
 
-	@ApiOperation(produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,value = "Upload a member photo as Multi part File with Request parameter memberId")
+	@ApiOperation(produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,value = "Upload a member2 photo as Multi part File with Request parameter memberId")
 	@PostMapping(value = "/upload", consumes =  MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Resource> singleFileUpload(
 			@ApiParam(name = "file", value = "Select the file to Upload", required = true)

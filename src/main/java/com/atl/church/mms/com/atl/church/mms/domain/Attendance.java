@@ -20,14 +20,14 @@ public class Attendance {
 	@ManyToOne
 	private Meeting meeting;
 	@OneToOne
-	private Member member;
+	private Member2 member2;
 
 	public Attendance() {
 	}
 
-	public Attendance(Long id,Meeting meeting, Member member) {
+	public Attendance(Long id,Meeting meeting, Member2 member2) {
 		this.id = id;
 		this.meeting = meeting;
-		this.member = member;
+		this.member2 = member2;
 	}
 }
