@@ -1,25 +1,16 @@
 package com.atl.church.mms.com.atl.church.mms.utils;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Email;
-import com.atl.church.mms.com.atl.church.mms.domain.Meeting;
-import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class EmailServiceImp implements EmailService {

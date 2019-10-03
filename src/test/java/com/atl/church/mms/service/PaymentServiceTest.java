@@ -122,7 +122,7 @@ public class PaymentServiceTest {
                 .id(new Long(3423432))
                 .memberId(new Long(98989))
                 .paymentMethod(PaymentMethod.CASH)
-                .note("this is not a member")
+                .note("this is not a member2")
                 .status(PaymentStatus.PAID)
                 .type("Monthly Payment")
                 .reason("")

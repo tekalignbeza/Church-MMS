@@ -1,8 +1,8 @@
 package com.atl.church.mms.com.atl.church.mms.rest;
 
+import com.atl.church.mms.com.atl.church.mms.domain.Member2;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 @Builder
 @Data
@@ -10,19 +10,18 @@ public class MemberDTO {
 
 	public MemberDTO() {}
 
-	public MemberDTO(Long id, String firstName, String middleName, String lastName, int age, String cellPhone, String email, String address1, String address2, String city, String state, String zipCode, String idCard) {
+	public MemberDTO(Long id, String firstName, String middleName, String lastName, Member2.Gender gender, int yearOfBirth, boolean isFamilyHead, boolean isSpouse, FamilyDTO family, String cellPhone, String email, String idCard) {
 		this.id = id;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
-		this.age = age;
+		this.gender = gender;
+		this.yearOfBirth = yearOfBirth;
+		this.isFamilyHead = isFamilyHead;
+		this.isSpouse = isSpouse;
+		this.family = family;
 		this.cellPhone = cellPhone;
 		this.email = email;
-		Address1 = address1;
-		Address2 = address2;
-		this.city = city;
-		this.state = state;
-		this.zipCode = zipCode;
 		this.idCard = idCard;
 	}
 
@@ -30,14 +29,13 @@ public class MemberDTO {
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	private int age;
+	Member2.Gender gender;
+	int yearOfBirth;
+	private boolean isFamilyHead;
+	private boolean isSpouse;
+	private FamilyDTO family;
 	private String cellPhone;
 	private String email;
-	private String Address1;
-	private String Address2;
-	private String city;
-	private String state;
-	private String zipCode;
 	private String idCard;
 
 }

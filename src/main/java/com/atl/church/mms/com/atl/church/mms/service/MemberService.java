@@ -1,9 +1,9 @@
 package com.atl.church.mms.com.atl.church.mms.service;
 
+import com.atl.church.mms.com.atl.church.mms.domain.Member2;
 import com.atl.church.mms.com.atl.church.mms.domain.Email;
-import com.atl.church.mms.com.atl.church.mms.domain.Member;
+import com.atl.church.mms.com.atl.church.mms.domain.Family;
 import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
-import com.atl.church.mms.com.atl.church.mms.utils.EmailService;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,17 +13,25 @@ import java.util.List;
 
 public interface MemberService {
 
-	Member getMember(Long id);
+	Family getFamily(Long id);
 
-	Member createMember(Member member);
+	Family createFamily(Family family);
 
-	Member updateMember(Member member);
+	Family addMemberToFamily(Member2 member2);
+
+	Family deleteMemberFromFamily(Long memberId);
+
+	Member2 getMember(Long id);
+
+	Member2 createMember(Member2 member2);
+
+	Member2 updateMember(Member2 member2);
 
 	boolean deleteMember(Long id);
 
-	List<Member> search(MemberSearchCriteria searchCriteria);
+	List<Member2> search(MemberSearchCriteria searchCriteria);
 
-	List<Member> getAll(boolean includeInactive);
+	List<Member2> getAll(boolean includeInactive);
 
 	boolean sendEmail(Email email) throws Exception;
 

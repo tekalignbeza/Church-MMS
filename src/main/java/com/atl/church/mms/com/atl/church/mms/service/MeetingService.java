@@ -2,12 +2,8 @@ package com.atl.church.mms.com.atl.church.mms.service;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Attendance;
 import com.atl.church.mms.com.atl.church.mms.domain.Meeting;
-import com.atl.church.mms.com.atl.church.mms.domain.Member;
-import com.atl.church.mms.com.atl.church.mms.utils.EmailService;
+import com.atl.church.mms.com.atl.church.mms.domain.Member2;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 
@@ -25,5 +21,5 @@ public interface MeetingService {
 
 	void meetingAttendance(Attendance attendance);
 
-	List<Member> getAttendanceByMeetingId(Long id);
+	List<Member2> getAttendanceByMeetingId(Long id);
 }
