@@ -3,8 +3,11 @@ package com.atl.church.mms.rest;
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentMethod;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentStatus;
+import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
 import com.atl.church.mms.com.atl.church.mms.rest.PaymentDTO;
 import com.atl.church.mms.com.atl.church.mms.rest.PaymentFactory;
+import com.atl.church.mms.com.atl.church.mms.rest.PaymentTypeDTO;
+import com.atl.church.mms.com.atl.church.mms.rest.PaymentTypeFactory;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +15,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -23,13 +28,14 @@ import static org.junit.Assert.assertTrue;
 public class PaymentFactoryTest {
     @InjectMocks
     private PaymentFactory paymentFactory;
+    @Spy
+    private PaymentTypeFactory paymentTypeFactory;
 
     private PaymentDTO paymentDTO;
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        paymentDTO = new PaymentDTO(new Long(3423432), new Long(98989), "this is not member2","CASH", 20.0,"Monthly Payment","PAID","monthly");
-
+        paymentDTO = buildPaymentDTO();
     }
 
     @Test
@@ -69,9 +75,21 @@ public class PaymentFactoryTest {
                 .paymentMethod(PaymentMethod.CASH)
                 .note("this is not a member2")
                 .status(PaymentStatus.PAID)
-                .type("Monthly Payment")
+                .type(PaymentType.builder().id(1l).name("Monthly Payment").build())
                 .amount(20.00)
                 .build();
     }
 
+
+    private PaymentDTO buildPaymentDTO(){
+        return PaymentDTO.builder()
+                .id(new Long(3423432))
+                .memberId(new Long(98989))
+                .paymentMethod(PaymentMethod.CASH.name())
+                .note("this is not a member2")
+                .status(PaymentStatus.PAID.name())
+                .type(PaymentTypeDTO.builder().id(1l).name("Monthly Payment").build())
+                .amount(20.00)
+                .build();
+    }
 }

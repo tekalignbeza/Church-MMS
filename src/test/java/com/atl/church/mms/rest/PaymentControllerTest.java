@@ -3,9 +3,11 @@ package com.atl.church.mms.rest;
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentMethod;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentStatus;
+import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
 import com.atl.church.mms.com.atl.church.mms.rest.PaymentController;
 import com.atl.church.mms.com.atl.church.mms.rest.PaymentDTO;
 import com.atl.church.mms.com.atl.church.mms.rest.PaymentFactory;
+import com.atl.church.mms.com.atl.church.mms.rest.PaymentTypeDTO;
 import com.atl.church.mms.com.atl.church.mms.service.PaymentService;
 import org.junit.Before;
 import org.junit.Test;
@@ -152,7 +154,7 @@ public class PaymentControllerTest {
                 .paymentMethod(PaymentMethod.CASH)
                 .note("this is not a member2")
                 .status(PaymentStatus.PAID)
-                .type("Monthly Payment")
+                .type(PaymentType.builder().id(1l).name("Monthly Payment").build())
                 .amount(20.00)
                 .build();
     }
@@ -164,7 +166,7 @@ public class PaymentControllerTest {
                 .paymentMethod(PaymentMethod.CASH.toString())
                 .note("this is not a member2")
                 .status(PaymentStatus.PAID.toString())
-                .type("Monthly Payment")
+                .type(PaymentTypeDTO.builder().id(1l).name("Monthly Payment").build())
                 .amount(20.00)
                 .build();
     }

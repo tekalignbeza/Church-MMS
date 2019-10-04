@@ -1,5 +1,6 @@
 package com.atl.church.mms.com.atl.church.mms.rest;
 
+import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ public class PaymentDTO {
     }
 
     @Builder
-    public PaymentDTO(Long id, Long memberId, String note, String  paymentMethod, Double amount, String type, String status, String reason) {
+    public PaymentDTO(Long id, Long memberId, String note, String  paymentMethod, Double amount, PaymentTypeDTO type, String status, String reason) {
         this.id = id;
         this.memberId = memberId;
         this.note = note;
@@ -28,7 +29,7 @@ public class PaymentDTO {
     private String paymentMethod;
     private Double amount;
     private String status;
-    private String type;
+    private PaymentTypeDTO type;
     private String reason;
 
 
