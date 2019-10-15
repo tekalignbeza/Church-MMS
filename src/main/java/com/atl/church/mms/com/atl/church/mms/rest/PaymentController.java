@@ -2,6 +2,8 @@ package com.atl.church.mms.com.atl.church.mms.rest;
 
 
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
+import com.atl.church.mms.com.atl.church.mms.dto.PaymentDTO;
+import com.atl.church.mms.com.atl.church.mms.factory.PaymentFactory;
 import com.atl.church.mms.com.atl.church.mms.service.PaymentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,6 +1,7 @@
-package com.atl.church.mms.com.atl.church.mms.rest;
+package com.atl.church.mms.com.atl.church.mms.factory;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Family;
+import com.atl.church.mms.com.atl.church.mms.dto.FamilyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,9 +9,9 @@ import org.springframework.stereotype.Component;
 public class FamilyFactory {
 
 	@Autowired
-	MemberFactory memberFactory;
+    MemberFactory memberFactory;
 	@Autowired
-	AddressFactory addressFactory;
+    AddressFactory addressFactory;
 
 	public Family toDomain(FamilyDTO dto){
 		return Family.builder().id(dto.getId()).address(addressFactory.toDomain(dto.getAddressDTO())).name(dto.getName())

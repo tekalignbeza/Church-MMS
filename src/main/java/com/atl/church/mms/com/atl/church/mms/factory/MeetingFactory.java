@@ -1,6 +1,7 @@
-package com.atl.church.mms.com.atl.church.mms.rest;
+package com.atl.church.mms.com.atl.church.mms.factory;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Meeting;
+import com.atl.church.mms.com.atl.church.mms.dto.MeetingDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

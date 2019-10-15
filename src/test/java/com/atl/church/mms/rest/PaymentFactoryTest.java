@@ -4,10 +4,10 @@ import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentMethod;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentStatus;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
-import com.atl.church.mms.com.atl.church.mms.rest.PaymentDTO;
-import com.atl.church.mms.com.atl.church.mms.rest.PaymentFactory;
-import com.atl.church.mms.com.atl.church.mms.rest.PaymentTypeDTO;
-import com.atl.church.mms.com.atl.church.mms.rest.PaymentTypeFactory;
+import com.atl.church.mms.com.atl.church.mms.dto.PaymentDTO;
+import com.atl.church.mms.com.atl.church.mms.factory.PaymentFactory;
+import com.atl.church.mms.com.atl.church.mms.dto.PaymentTypeDTO;
+import com.atl.church.mms.com.atl.church.mms.factory.PaymentTypeFactory;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,6 @@ import org.junit.runners.JUnit4;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

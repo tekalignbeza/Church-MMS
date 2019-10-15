@@ -1,8 +1,9 @@
-package com.atl.church.mms.com.atl.church.mms.rest;
+package com.atl.church.mms.com.atl.church.mms.factory;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentMethod;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentStatus;
+import com.atl.church.mms.com.atl.church.mms.dto.PaymentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

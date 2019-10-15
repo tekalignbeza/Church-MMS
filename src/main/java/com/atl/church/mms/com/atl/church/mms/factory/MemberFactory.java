@@ -1,6 +1,8 @@
-package com.atl.church.mms.com.atl.church.mms.rest;
+package com.atl.church.mms.com.atl.church.mms.factory;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Member2;
+import com.atl.church.mms.com.atl.church.mms.dto.MemberDTO;
+import com.atl.church.mms.com.atl.church.mms.factory.FamilyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

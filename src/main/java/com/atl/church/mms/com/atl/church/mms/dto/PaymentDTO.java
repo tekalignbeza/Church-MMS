@@ -1,6 +1,5 @@
-package com.atl.church.mms.com.atl.church.mms.rest;
+package com.atl.church.mms.com.atl.church.mms.dto;
 
-import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
 import lombok.Builder;
 import lombok.Data;
 
