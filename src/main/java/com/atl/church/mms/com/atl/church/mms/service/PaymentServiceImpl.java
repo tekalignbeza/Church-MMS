@@ -2,7 +2,7 @@ package com.atl.church.mms.com.atl.church.mms.service;
 
 import com.atl.church.mms.com.atl.church.mms.data.PaymentRepo;
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
-import com.atl.church.mms.com.atl.church.mms.domain.PaymentStatus;
+import com.atl.church.mms.com.atl.church.mms.domain.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
         Optional<Payment> payment =  paymentRepo.findById(id);
         if( !payment.isPresent())
             return false;
-        payment.get().setStatus(PaymentStatus.VOID);
+        payment.get().setStatus(TransactionStatus.VOID);
         paymentRepo.save(payment.get());
         return true;
     }

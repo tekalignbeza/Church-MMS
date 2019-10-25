@@ -2,8 +2,8 @@ package com.atl.church.mms.service;
 
 import com.atl.church.mms.com.atl.church.mms.data.PaymentRepo;
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
-import com.atl.church.mms.com.atl.church.mms.domain.PaymentMethod;
-import com.atl.church.mms.com.atl.church.mms.domain.PaymentStatus;
+import com.atl.church.mms.com.atl.church.mms.domain.TransactionMethod;
+import com.atl.church.mms.com.atl.church.mms.domain.TransactionStatus;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
 import com.atl.church.mms.com.atl.church.mms.service.PaymentServiceImpl;
 import org.junit.Before;
@@ -122,9 +122,9 @@ public class PaymentServiceTest {
         return Payment.builder()
                 .id(new Long(3423432))
                 .memberId(new Long(98989))
-                .paymentMethod(PaymentMethod.CASH)
+                .transactionMethod(TransactionMethod.CASH)
                 .note("this is not a member2")
-                .status(PaymentStatus.PAID)
+                .status(TransactionStatus.PAID)
                 .type(PaymentType.builder().id(1l).name("Monthly Payment").build())
                 .reason("")
                 .amount(20.00)

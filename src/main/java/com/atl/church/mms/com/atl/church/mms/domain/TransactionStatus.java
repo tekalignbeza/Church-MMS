@@ -1,13 +1,13 @@
 package com.atl.church.mms.com.atl.church.mms.domain;
 
-public enum PaymentStatus {
+public enum TransactionStatus {
 
     PAID("Paid"),
     VOID("Void"),
     PENDING("Pending");
     private String status;
 
-    PaymentStatus(String status) {
+    TransactionStatus(String status) {
         this.status = status;
     }
 

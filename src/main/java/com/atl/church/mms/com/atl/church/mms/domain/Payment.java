@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Data
@@ -16,22 +16,22 @@ public class Payment {
     @GeneratedValue
     private Long id;
     private Long memberId;
-    @OneToOne
+    @ManyToOne
     private PaymentType type;
-    private PaymentMethod paymentMethod;
+    private TransactionMethod transactionMethod;
     private Double amount;
-    private PaymentStatus status;
+    private TransactionStatus status;
     private String note;
     private String reason;
 
     public Payment() {
     }
 
-    public Payment(Long id, Long memberId, PaymentType type, PaymentMethod paymentMethod, Double amount, PaymentStatus status, String note, String reason) {
+    public Payment(Long id, Long memberId, PaymentType type, TransactionMethod transactionMethod, Double amount, TransactionStatus status, String note, String reason) {
         this.id = id;
         this.memberId = memberId;
         this.type = type;
-        this.paymentMethod = paymentMethod;
+        this.transactionMethod = transactionMethod;
         this.amount = amount;
         this.status = status;
         this.note = note;

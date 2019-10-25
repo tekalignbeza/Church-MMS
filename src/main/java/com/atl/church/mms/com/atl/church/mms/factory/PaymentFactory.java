@@ -1,8 +1,8 @@
 package com.atl.church.mms.com.atl.church.mms.factory;
 
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
-import com.atl.church.mms.com.atl.church.mms.domain.PaymentMethod;
-import com.atl.church.mms.com.atl.church.mms.domain.PaymentStatus;
+import com.atl.church.mms.com.atl.church.mms.domain.TransactionMethod;
+import com.atl.church.mms.com.atl.church.mms.domain.TransactionStatus;
 import com.atl.church.mms.com.atl.church.mms.dto.PaymentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,10 +19,10 @@ public class PaymentFactory {
         return Payment.builder()
                 .id(dto.getId())
                 .memberId(dto.getMemberId())
-                .paymentMethod(dto.getPaymentMethod() != null ? PaymentMethod.valueOf(dto.getPaymentMethod()) : null)
+                .transactionMethod(dto.getPaymentMethod() != null ? TransactionMethod.valueOf(dto.getPaymentMethod()) : null)
                 .amount(dto.getAmount())
                 .note(dto.getNote())
-                .status(dto.getStatus() != null ? PaymentStatus.valueOf(dto.getStatus()): null)
+                .status(dto.getStatus() != null ? TransactionStatus.valueOf(dto.getStatus()): null)
                 .type(paymentTypeFactory.toDomain(dto.getType()))
                 .reason(dto.getReason())
                 .build();
@@ -32,7 +32,7 @@ public class PaymentFactory {
         return PaymentDTO.builder()
                 .id(domain.getId())
                 .memberId(domain.getMemberId())
-                .paymentMethod(domain.getPaymentMethod() != null ? domain.getPaymentMethod().name() : null)
+                .paymentMethod(domain.getTransactionMethod() != null ? domain.getTransactionMethod().name() : null)
                 .amount(domain.getAmount())
                 .note(domain.getNote())
                 .type(paymentTypeFactory.toDto(domain.getType()))

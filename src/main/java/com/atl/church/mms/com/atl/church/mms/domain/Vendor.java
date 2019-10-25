@@ -17,17 +17,14 @@ public class Vendor {
     private String name;
     @OneToOne
     private Address address;
-    @OneToMany
-    private List<Expense> expense;
 
 
     public Vendor() {
     }
 
-    public Vendor(Long id, String name,Address address, List<Expense> expense) {
+    public Vendor(Long id, String name,Address address) {
         this.id = id;
         this.name = name;
-        this.expense = expense;
         this.address=address;
     }
 }

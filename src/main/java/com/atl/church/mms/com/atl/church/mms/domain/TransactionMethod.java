@@ -1,13 +1,14 @@
 package com.atl.church.mms.com.atl.church.mms.domain;
 
-public enum PaymentMethod {
+public enum TransactionMethod {
 
     CASH("Cash"),
     CHECK("Check"),
-    CREDIT_CARD("Credit Card");
+    CREDIT_CARD("Credit Card"),
+    WIRE_TRANSFER("Wire Transfer");
     private String method;
 
-    PaymentMethod(String m) {
+    TransactionMethod(String m) {
         this.method = m;
     }
 

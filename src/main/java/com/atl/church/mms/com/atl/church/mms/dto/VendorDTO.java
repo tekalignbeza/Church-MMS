@@ -13,14 +13,12 @@ public class VendorDTO {
     private Long id;
     private String name;
     private AddressDTO addressDTO;
-    private List<ExpenseDTO> expenseDTOS;
 
 
     @Builder
-    public VendorDTO(Long id, String name, AddressDTO addressDTO, List<ExpenseDTO> expenseDTOS) {
+    public VendorDTO(Long id, String name, AddressDTO addressDTO) {
         this.id = id;
         this.name = name;
         this.addressDTO=addressDTO;
-        this.expenseDTOS = expenseDTOS;
     }
 }

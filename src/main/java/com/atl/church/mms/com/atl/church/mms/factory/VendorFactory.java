@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 @Component
 public class VendorFactory {
 
-
-    @Autowired
-    private ExpenseFactory expenseFactory;
     @Autowired
     private AddressFactory addressFactory;
 
@@ -24,7 +21,6 @@ public class VendorFactory {
                 .id(vendorDTO.getId())
                 .name(vendorDTO.getName())
                 .address(addressFactory.toDomain(vendorDTO.getAddressDTO()))
-                .expense(vendorDTO.getExpenseDTOS().stream().map(dto -> this.expenseFactory.toDomain(dto)).collect(Collectors.toList()))
                 .build();
 
     }
@@ -34,7 +30,6 @@ public class VendorFactory {
                 .id(vendor.getId())
                 .name(vendor.getName())
                 .addressDTO(addressFactory.toDto(vendor.getAddress()))
-                .expenseDTOS(vendor.getExpense().stream().map(expense -> this.expenseFactory.toDto(expense)).collect(Collectors.toList()))
                 .build();
 
     }
