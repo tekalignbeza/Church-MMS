@@ -1,21 +1,21 @@
 # Member Management Service (MMS)
 
-MMS is application intended to register and manager member2s, record attendance and track contribution of each member2s. It also allow to schedule meetings and send notification to member2s of the church. 
+MMS is application intended to register and manager members, record attendance and track contribution of each members. It also allow to schedule meetings and send notification to members of the church. 
 
 ### Functional Requirement
 
 #### Member Service
-		Add New member2.
-		Update existing member2s.
-		Remove member2.
+		Add New member.
+		Update existing members.
+		Remove member.
 		Ingest batch from existing data source ( other db or excel) 
 		Generate digital ID with barcode(send to their mobile) or hard copy
 	
 #### Meeting Service
 		
 		Schedule new Meetings.
-		Send Meeting notification for each member2s (with their digitalID)
-		Track attendance of each member2 using there barcode 
+		Send Meeting notification for each members (with their digitalID)
+		Track attendance of each member using there barcode 
 		
 ### Non Functional Requirement 
 	

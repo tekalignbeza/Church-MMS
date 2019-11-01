@@ -9,4 +9,5 @@ import java.util.List;
 public interface AttendanceRepo extends JpaRepository<Attendance, Long>  {
 
 	List<Attendance> findByMeetingId(Long id);
+	List<Attendance> findByFamilyId(Long id);
 }

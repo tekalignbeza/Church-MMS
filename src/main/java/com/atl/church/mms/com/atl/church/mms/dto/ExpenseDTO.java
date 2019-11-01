@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -16,10 +18,13 @@ import java.util.List;
 public class ExpenseDTO {
 
     private Long id;
+    @NotEmpty(message = "Please provide a name")
     private String expenseName;
+    @NotNull(message = "Please provide a date")
     private Date expenseDate;
     private String expenseNote;
     private String status;
+    @NotEmpty(message = "Please provide a transactionMethod")
     private String transactionMethod;
     private Vendor vendor;
     private ExpenseTypeDTO expenseType;
@@ -35,5 +40,9 @@ public class ExpenseDTO {
         this.vendor = vendor;
         this.expenseType = expenseType;
         this.amount = amount;
+    }
+
+    public ExpenseDTO(){
+
     }
 }

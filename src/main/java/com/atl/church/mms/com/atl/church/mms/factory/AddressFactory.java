@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class AddressFactory {
 
 	public Address toDomain(AddressDTO dto){
-		return Address.builder().streetAddress1(dto.getStreetAddress1()).streetAddress2(dto.getStreetAddress2())
+		return Address.builder().id(dto.getId()).streetAddress1(dto.getStreetAddress1()).streetAddress2(dto.getStreetAddress2())
 				.city(dto.getCity()).state(dto.getState()).zipCode(dto.getZipCode()).build();
 	}
 

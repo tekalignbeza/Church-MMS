@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Data
@@ -17,23 +18,26 @@ public class Payment {
     private Long id;
     private Long memberId;
     @ManyToOne
-    private PaymentType type;
+    private Family family;
+    @ManyToOne
+    private PaymentType paymentType;
     private TransactionMethod transactionMethod;
-    private Double amount;
     private TransactionStatus status;
+    private Double amount;
     private String note;
     private String reason;
 
     public Payment() {
     }
 
-    public Payment(Long id, Long memberId, PaymentType type, TransactionMethod transactionMethod, Double amount, TransactionStatus status, String note, String reason) {
+    public Payment(Long id,Long memberId, Family family, PaymentType paymentType, TransactionMethod transactionMethod, TransactionStatus status, Double amount, String note, String reason) {
         this.id = id;
         this.memberId = memberId;
-        this.type = type;
+        this.family = family;
+        this.paymentType = paymentType;
         this.transactionMethod = transactionMethod;
-        this.amount = amount;
         this.status = status;
+        this.amount = amount;
         this.note = note;
         this.reason = reason;
     }

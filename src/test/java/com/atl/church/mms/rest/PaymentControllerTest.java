@@ -4,6 +4,8 @@ import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.domain.TransactionMethod;
 import com.atl.church.mms.com.atl.church.mms.domain.TransactionStatus;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
+import com.atl.church.mms.com.atl.church.mms.exception.MMSRestException;
+import com.atl.church.mms.com.atl.church.mms.exception.MMSServiceException;
 import com.atl.church.mms.com.atl.church.mms.rest.PaymentController;
 import com.atl.church.mms.com.atl.church.mms.dto.PaymentDTO;
 import com.atl.church.mms.com.atl.church.mms.factory.PaymentFactory;
@@ -39,21 +41,21 @@ public class PaymentControllerTest {
     }
 
     @Test
-    public void getNotFountTest() {
+    public void getNotFountTest() throws MMSServiceException {
         when(paymentService.getPayment(new Long("12233"))).thenReturn(null);
-        ResponseEntity responseEntity = paymentController.get("12233");
+        ResponseEntity responseEntity = paymentController.get(12233l);
         assertTrue("content not found", responseEntity.getStatusCode().value() == 404);
         verify(paymentService, times(1)).getPayment(new Long("12233"));
 
     }
 
     @Test
-    public void getFountTest() {
+    public void getFountTest() throws MMSServiceException {
         Payment payment = buildPayment();
         PaymentDTO paymentDTO = buildPaymentDTO();
         when(paymentService.getPayment(new Long("12233"))).thenReturn(payment);
         when(paymentFactory.toDto(payment)).thenReturn(paymentDTO);
-        ResponseEntity responseEntity = paymentController.get("12233");
+        ResponseEntity responseEntity = paymentController.get(12233l);
         PaymentDTO result = (PaymentDTO) responseEntity.getBody();
         assertTrue("content found", responseEntity.getStatusCode().value() == 200);
         assertTrue("content comparison", result.getId().equals(payment.getId()));
@@ -63,23 +65,23 @@ public class PaymentControllerTest {
     }
 
     @Test
-    public void updateNotFountTest() {
+    public void updateNotFountTest() throws MMSServiceException {
         PaymentDTO paymentDTO = buildPaymentDTO();
         when(paymentService.getPayment(new Long("3423432"))).thenReturn(null);
-        ResponseEntity responseEntity = paymentController.updatePayemnt(paymentDTO);
+        ResponseEntity responseEntity = paymentController.updatePayment(1l,2l,3l,paymentDTO);
         assertTrue("content not found", responseEntity.getStatusCode().value() == 404);
         verify(paymentService, times(1)).getPayment(new Long("3423432"));
 
     }
 
     @Test
-    public void updateWhenFoundFountTest() {
+    public void updateWhenFoundFountTest() throws MMSServiceException {
         Payment payment = buildPayment();
         PaymentDTO paymentDTO = buildPaymentDTO();
         when(paymentService.getPayment(new Long("3423432"))).thenReturn(payment);
         when(paymentFactory.toDto(payment)).thenReturn(paymentDTO);
         when(paymentFactory.toDomain(paymentDTO)).thenReturn(payment);
-        ResponseEntity responseEntity = paymentController.updatePayemnt(paymentDTO);
+        ResponseEntity responseEntity = paymentController.updatePayment(1l,2l,3l,paymentDTO);
 
         assertTrue("content found", responseEntity.getStatusCode().value() == 200);
         verify(paymentService, times(1)).getPayment(new Long("3423432"));
@@ -88,13 +90,13 @@ public class PaymentControllerTest {
     }
 
     @Test
-    public void createExistingTest() throws URISyntaxException {
+    public void createExistingTest() throws URISyntaxException, MMSServiceException, MMSRestException {
         Payment payment = buildPayment();
         PaymentDTO paymentDTO = buildPaymentDTO();
         when(paymentService.getPayment(new Long("3423432"))).thenReturn(null);
         when(paymentFactory.toDto(payment)).thenReturn(paymentDTO);
         when(paymentFactory.toDomain(paymentDTO)).thenReturn(payment);
-        ResponseEntity responseEntity = paymentController.create(paymentDTO);
+        ResponseEntity responseEntity = paymentController.create(1l,2l,3l,paymentDTO);
 
         assertTrue("content found", responseEntity.getStatusCode().value() == 226);
         verify(paymentService, times(1)).getPayment(new Long("3423432"));
@@ -102,13 +104,13 @@ public class PaymentControllerTest {
     }
 
     @Test
-    public void createTest() throws URISyntaxException {
+    public void createTest() throws URISyntaxException, MMSServiceException, MMSRestException {
         Payment payment = buildPayment();
         PaymentDTO paymentDTO = buildPaymentDTO();
         when(paymentService.getPayment(new Long("3423432"))).thenReturn(payment);
         when(paymentFactory.toDto(payment)).thenReturn(paymentDTO);
         when(paymentFactory.toDomain(paymentDTO)).thenReturn(payment);
-        ResponseEntity responseEntity = paymentController.create(paymentDTO);
+        ResponseEntity responseEntity = paymentController.create(1l,2l,3l,paymentDTO);
 
         assertTrue("content found", responseEntity.getStatusCode().value() == 201);
         assertTrue("check location uri", responseEntity.getHeaders().get("Location").contains("/payment/" + payment.getId()));
@@ -118,13 +120,13 @@ public class PaymentControllerTest {
     }
 
     @Test
-    public void deleteNotFoundTest() {
+    public void deleteNotFoundTest() throws MMSServiceException {
         Payment payment = buildPayment();
         PaymentDTO paymentDTO = buildPaymentDTO();
         when(paymentService.getPayment(new Long("3423432"))).thenReturn(null);
         when(paymentFactory.toDto(payment)).thenReturn(paymentDTO);
         when(paymentFactory.toDomain(paymentDTO)).thenReturn(payment);
-        ResponseEntity responseEntity = paymentController.deletePayment("3423432");
+        ResponseEntity responseEntity = paymentController.deletePayment(3423432l);
 
         assertTrue("content found", responseEntity.getStatusCode().value() == 404);
         verify(paymentService, times(1)).getPayment(new Long("3423432"));
@@ -133,13 +135,13 @@ public class PaymentControllerTest {
     }
 
     @Test
-    public void deleteFoundTest() {
+    public void deleteFoundTest() throws MMSServiceException {
         Payment payment = buildPayment();
         PaymentDTO paymentDTO = buildPaymentDTO();
         when(paymentService.getPayment(new Long("3423432"))).thenReturn(payment);
         when(paymentFactory.toDto(payment)).thenReturn(paymentDTO);
         when(paymentFactory.toDomain(paymentDTO)).thenReturn(payment);
-        ResponseEntity responseEntity = paymentController.deletePayment("3423432");
+        ResponseEntity responseEntity = paymentController.deletePayment(3423432l);
 
         assertTrue("content found", responseEntity.getStatusCode().value() == 200);
         verify(paymentService, times(1)).getPayment(new Long("3423432"));
@@ -154,7 +156,7 @@ public class PaymentControllerTest {
                 .transactionMethod(TransactionMethod.CASH)
                 .note("this is not a member2")
                 .status(TransactionStatus.PAID)
-                .type(PaymentType.builder().id(1l).name("Monthly Payment").build())
+                .paymentType(PaymentType.builder().id(1l).name("Monthly Payment").build())
                 .amount(20.00)
                 .build();
     }

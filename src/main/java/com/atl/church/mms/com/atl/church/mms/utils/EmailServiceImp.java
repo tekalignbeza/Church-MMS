@@ -38,7 +38,8 @@ public class EmailServiceImp implements EmailService {
 		helper.setText(html, true);
 		helper.setSubject(email.getSubject());
 		helper.setFrom(email.getFrom());
-		helper.addInline("idCard", new FileSystemResource(email.getData().get("file").toString()), "image/png");
+		helper.addAttachment("ID CARD", new FileSystemResource(email.getData().get("file").toString()));
+		//helper.addInline("idCard",new FileSystemResource(email.getData().get("file").toString()) , "image/png");
 		emailSender.send(message);
 	}
 }

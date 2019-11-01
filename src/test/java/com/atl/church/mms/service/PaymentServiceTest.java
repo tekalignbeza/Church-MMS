@@ -5,6 +5,7 @@ import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.domain.TransactionMethod;
 import com.atl.church.mms.com.atl.church.mms.domain.TransactionStatus;
 import com.atl.church.mms.com.atl.church.mms.domain.PaymentType;
+import com.atl.church.mms.com.atl.church.mms.exception.MMSServiceException;
 import com.atl.church.mms.com.atl.church.mms.service.PaymentServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class PaymentServiceTest {
         MockitoAnnotations.initMocks(this);
     }
     @Test
-    public void getPayment() {
+    public void getPayment() throws MMSServiceException {
         Payment payment = buildPayment();
         when(paymentRepo.findById(payment.getId())).thenReturn(Optional.of(payment));
         paymentService.getPayment(payment.getId());
@@ -45,7 +46,7 @@ public class PaymentServiceTest {
 
     }
     @Test
-    public void getPaymentNotFound() {
+    public void getPaymentNotFound() throws MMSServiceException {
         Payment payment = buildPayment();
         when(paymentRepo.findById(payment.getId())).thenReturn(Optional.empty());
         assertNull(paymentService.getPayment(payment.getId()));
@@ -57,9 +58,9 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void createPayment() {
+    public void createPayment() throws MMSServiceException {
         Payment payment = buildPayment();
-        paymentService.createPayment(payment);
+        paymentService.createPayment(1l,2l,3l,payment);
         verify(paymentRepo, times(1)).save(payment);
         ArgumentCaptor<Payment> argument = ArgumentCaptor.forClass(Payment.class);
         verify(paymentRepo).save(argument.capture());
@@ -67,36 +68,36 @@ public class PaymentServiceTest {
 
     }
     @Test
-    public void createPaymentExists() {
+    public void createPaymentExists() throws MMSServiceException {
         Payment payment = buildPayment();
         when(paymentRepo.findById(new Long(payment.getId()))).thenReturn(Optional.of(payment));
-        assertNull(paymentService.createPayment(payment));
+        assertNull(paymentService.createPayment(1l,2l,3l,payment));
         verify(paymentRepo, times(0)).save(payment);
 
     }
 
     @Test
-    public void updatePayment() {
+    public void updatePayment() throws MMSServiceException {
         Payment payment = buildPayment();
         when(paymentRepo.findById(payment.getId())).thenReturn(Optional.of(payment));
-        Payment result = paymentService.updatePayment(payment);
+        Payment result = paymentService.updatePayment(1l,2l,3l,payment);
         verify(paymentRepo, times(1)).save(payment);
         verify(paymentRepo,times(1)).findById(payment.getId());
 
     }
 
     @Test
-    public void updatePaymentNotFound() {
+    public void updatePaymentNotFound() throws MMSServiceException {
         Payment payment = buildPayment();
         when(paymentRepo.findById(payment.getId())).thenReturn(Optional.empty());
-        paymentService.updatePayment(payment);
+        paymentService.updatePayment(1l,2l,3l,payment);
         verify(paymentRepo, times(0)).save(payment);
         verify(paymentRepo,times(1)).findById(payment.getId());
 
     }
 
     @Test
-    public void deletePayment() {
+    public void deletePayment() throws MMSServiceException {
         Payment payment = buildPayment();
         when(paymentRepo.findById(payment.getId())).thenReturn(Optional.of(payment));
         assertTrue(paymentService.deletePayment(payment.getId()));
@@ -109,7 +110,7 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void deletePaymentNotFound() {
+    public void deletePaymentNotFound() throws MMSServiceException {
         Payment payment = buildPayment();
         when(paymentRepo.findById(payment.getId())).thenReturn(Optional.empty());
         assertFalse(paymentService.deletePayment(payment.getId()));
@@ -125,7 +126,7 @@ public class PaymentServiceTest {
                 .transactionMethod(TransactionMethod.CASH)
                 .note("this is not a member2")
                 .status(TransactionStatus.PAID)
-                .type(PaymentType.builder().id(1l).name("Monthly Payment").build())
+                .paymentType(PaymentType.builder().id(1l).name("Monthly Payment").build())
                 .reason("")
                 .amount(20.00)
                 .build();

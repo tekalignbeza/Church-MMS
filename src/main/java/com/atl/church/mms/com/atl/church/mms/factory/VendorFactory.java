@@ -14,6 +14,8 @@ public class VendorFactory {
 
     @Autowired
     private AddressFactory addressFactory;
+    @Autowired
+    private UserFactory userFactory;
 
     public Vendor toDomain(VendorDTO vendorDTO){
 
@@ -21,6 +23,7 @@ public class VendorFactory {
                 .id(vendorDTO.getId())
                 .name(vendorDTO.getName())
                 .address(addressFactory.toDomain(vendorDTO.getAddressDTO()))
+                .user(userFactory.toDomain(vendorDTO.getUserDTO()))
                 .build();
 
     }
@@ -30,6 +33,7 @@ public class VendorFactory {
                 .id(vendor.getId())
                 .name(vendor.getName())
                 .addressDTO(addressFactory.toDto(vendor.getAddress()))
+                .userDTO(userFactory.toDto(vendor.getUser()))
                 .build();
 
     }

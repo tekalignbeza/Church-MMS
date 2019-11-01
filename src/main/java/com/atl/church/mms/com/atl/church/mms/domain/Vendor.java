@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
 @Data
@@ -17,14 +17,16 @@ public class Vendor {
     private String name;
     @OneToOne
     private Address address;
-
+    @OneToOne
+    private User user;
 
     public Vendor() {
     }
 
-    public Vendor(Long id, String name,Address address) {
+    public Vendor(Long id, String name,Address address,User user) {
         this.id = id;
         this.name = name;
         this.address=address;
+        this.user = user;
     }
 }

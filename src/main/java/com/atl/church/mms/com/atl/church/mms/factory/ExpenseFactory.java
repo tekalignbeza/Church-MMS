@@ -22,10 +22,8 @@ public class ExpenseFactory {
                 .expenseName(dto.getExpenseName())
                 .expenseNote(dto.getExpenseNote())
                 .amount(dto.getAmount())
-                .expenseType(expenseTypeFactory.toDomain(dto.getExpenseType()))
                 .status(dto.getStatus() != null ? TransactionStatus.valueOf(dto.getStatus()): null)
                 .transactionMethod(dto.getTransactionMethod() != null ? TransactionMethod.valueOf(dto.getTransactionMethod()) : null)
-                .vendor(dto.getVendor())
                 .build();
     }
 

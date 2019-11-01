@@ -8,14 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Data
 @Builder
-public class Member2 {
+@Table(name = "MemberTable")
+public class Member {
 
-	public Member2() {}
-	public Member2(Long id, String firstName, String middleName, String lastName, Gender gender, int yearOfBirth, String cellPhone, String email, boolean isFamilyHead, boolean isSpouse, boolean isActive, String password, Role role, String idCard, Family family) {
+	public Member() {}
+	public Member(Long id, String firstName, String middleName, String lastName, Gender gender, int yearOfBirth, String cellPhone, String email, boolean isFamilyHead, boolean isSpouse, boolean isActive, String idCard, Family family,User user) {
 		this.id = id;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -27,10 +30,9 @@ public class Member2 {
 		this.isActive = isActive;
 		this.isFamilyHead = false;
 		this.isSpouse = isSpouse;
-		this.password = password;
-		this.role = role;
 		this.idCard = idCard;
 		this.family = family;
+		this.user = user;
 	}
 
 	@Id
@@ -46,16 +48,13 @@ public class Member2 {
 	private boolean isActive;
 	private boolean isFamilyHead;
 	private boolean isSpouse;
-	private String password;
-	private Role role;
 	private String idCard;
 	@ManyToOne
-	@JoinColumn(name="family_id", nullable=false)
 	private Family family;
+	@OneToOne
+	private User user;
 	public enum Gender{
 		Male,Female
 	}
-	public enum Role{
-		User,Admin;
-	}
+
 }

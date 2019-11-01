@@ -11,16 +11,21 @@ public class FamilyFactory {
 	@Autowired
     MemberFactory memberFactory;
 	@Autowired
+	PaymentFactory paymentFactory;
+	@Autowired
+	AttendaceFactory attendaceFactory;
+	@Autowired
     AddressFactory addressFactory;
 
 	public Family toDomain(FamilyDTO dto){
-		return Family.builder().id(dto.getId()).address(addressFactory.toDomain(dto.getAddressDTO())).name(dto.getName())
-				.member2List(memberFactory.toDomains(dto.getMemberDTOList())).build();
+		return Family.builder().id(dto.getId()).address(addressFactory.toDomain(dto.getAddressDTO()))
+				.name(dto.getName())
+				.build();
 	}
 
 	public FamilyDTO toDto(Family domain){
 		return FamilyDTO.builder().id(domain.getId()).addressDTO(addressFactory.toDto(domain.getAddress())).name(domain.getName())
-				.memberDTOList(memberFactory.toDtos(domain.getMember2List())).build();
+				.build();
 	}
 
 }

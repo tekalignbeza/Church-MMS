@@ -1,18 +1,18 @@
 package com.atl.church.mms.com.atl.church.mms.data;
 
-import com.atl.church.mms.com.atl.church.mms.domain.Member2;
+import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface MemberRepo extends JpaRepository<Member2, Long>  {
+public interface MemberRepo extends JpaRepository<Member, Long>  {
 
-	List<Member2> findByFirstName(String firstName);
-	List<Member2> findByMiddleName(String firstName);
-	List<Member2> findByLastName(String firstName);
-	List<Member2> findByEmail(String firstName);
-	List<Member2> findByCellPhone(String firstName);
-
+	List<Member> findByFirstName(String firstName);
+	List<Member> findByMiddleName(String firstName);
+	List<Member> findByLastName(String firstName);
+	List<Member> findByEmail(String firstName);
+	List<Member> findByCellPhone(String firstName);
+	List<Member> findByFamilyId(long familyId);
 
 
 }

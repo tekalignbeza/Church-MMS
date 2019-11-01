@@ -1,5 +1,6 @@
 package com.atl.church.mms.com.atl.church.mms.factory;
 
+import com.atl.church.mms.com.atl.church.mms.domain.Family;
 import com.atl.church.mms.com.atl.church.mms.domain.Payment;
 import com.atl.church.mms.com.atl.church.mms.domain.TransactionMethod;
 import com.atl.church.mms.com.atl.church.mms.domain.TransactionStatus;
@@ -15,6 +16,9 @@ public class PaymentFactory {
 
     @Autowired
     private PaymentTypeFactory paymentTypeFactory;
+    @Autowired
+    private FamilyFactory familyFactory;
+
     public Payment toDomain(PaymentDTO dto){
         return Payment.builder()
                 .id(dto.getId())
@@ -23,7 +27,6 @@ public class PaymentFactory {
                 .amount(dto.getAmount())
                 .note(dto.getNote())
                 .status(dto.getStatus() != null ? TransactionStatus.valueOf(dto.getStatus()): null)
-                .type(paymentTypeFactory.toDomain(dto.getType()))
                 .reason(dto.getReason())
                 .build();
     }
@@ -34,8 +37,9 @@ public class PaymentFactory {
                 .memberId(domain.getMemberId())
                 .paymentMethod(domain.getTransactionMethod() != null ? domain.getTransactionMethod().name() : null)
                 .amount(domain.getAmount())
+                .familyDTO(familyFactory.toDto(domain.getFamily()))
                 .note(domain.getNote())
-                .type(paymentTypeFactory.toDto(domain.getType()))
+                .type(paymentTypeFactory.toDto(domain.getPaymentType()))
                 .status(domain.getStatus() != null ? domain.getStatus().name() : null)
                 .reason(domain.getReason())
                 .build();

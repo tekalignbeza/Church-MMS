@@ -21,7 +21,7 @@ public class ImageResizerImpl implements ImageResizer {
 					.width(width)
 					.asBufferedImage();
 		} catch (IOException exception) {
-			throw new Exception("Image could not be resized to type: ");
+			throw new Exception("Image could not be resized to paymentType: ");
 		}
 	}
 

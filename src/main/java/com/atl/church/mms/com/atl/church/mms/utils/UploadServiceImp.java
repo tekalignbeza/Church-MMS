@@ -1,6 +1,6 @@
 package com.atl.church.mms.com.atl.church.mms.utils;
 
-import com.atl.church.mms.com.atl.church.mms.domain.Member2;
+import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeFactory;
 import net.sourceforge.barbecue.BarcodeImageHandler;
@@ -44,15 +44,15 @@ public class UploadServiceImp implements UploadService {
 	* */
 
 	@Override
-	public BufferedImage GenerateIdCard(File tempFile, Member2 member2) throws Exception {
+	public BufferedImage GenerateIdCard(File tempFile, Member member) throws Exception {
 		BufferedImage idCardBufferedImage = new BufferedImage(idWidth, idHeight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D idCard = idCardBufferedImage.createGraphics();
 		idCard.setColor(Color.WHITE);
 		idCard.fillRect(1, 1, idWidth-2, idHeight-2);
 		idCard.setColor(Color.BLACK);
 		drawPhoto(idCard,tempFile);
-		drawBarcode(idCard, member2);
-		drawTxt(idCard, member2);
+		drawBarcode(idCard, member);
+		drawTxt(idCard, member);
 		idCard.dispose();
 		return idCardBufferedImage;
 	}
@@ -69,28 +69,28 @@ public class UploadServiceImp implements UploadService {
 	}
 
 	@Override
-	public BufferedImage generateBarcode(Member2 member2) throws Exception {
-		Barcode barcode = BarcodeFactory.createCode128B(String.format("%04d", member2.getId()));
+	public BufferedImage generateBarcode(Member member) throws Exception {
+		Barcode barcode = BarcodeFactory.createCode128B(String.format("%04d", member.getId()));
 		barcode.setBarWidth(2);
 		barcode.setBarHeight(40);
 		return BarcodeImageHandler.getImage( barcode);
 	}
 
 	@Override
-	public void drawTxt(Graphics2D idCard, Member2 member2){
+	public void drawTxt(Graphics2D idCard, Member member){
 		int txtCenter = txtPanelWidth/2;
 		int txtPanelFontSize = 20;
 		idCard.setColor(Color.WHITE);
 		idCard.fillRect(idCenter-txtCenter, outerPaddingHeight+photoHeight+innerPaddingHeight, txtPanelWidth, txtPanelHeight);
 		idCard.setColor(Color.BLACK);
 		idCard.setFont(new Font("Arial Black", Font.BOLD, txtPanelFontSize));
-		writeTxt(idCard, member2);
+		writeTxt(idCard, member);
 	}
 
-	private void writeTxt(Graphics2D idCard, Member2 member2){
+	private void writeTxt(Graphics2D idCard, Member member){
 
-		String name = member2.getFirstName().toUpperCase()+" "+ member2.getLastName().toUpperCase();
-		String id = String.format("%04d", member2.getId());
+		String name = member.getFirstName().toUpperCase()+" "+ member.getLastName().toUpperCase();
+		String id = String.format("%04d", member.getId());
 		FontMetrics fm = idCard.getFontMetrics();
 		int nameWidth = 0;
 		int idWidth = 0;
@@ -108,8 +108,8 @@ public class UploadServiceImp implements UploadService {
 	}
 
 	@Override
-	public void drawBarcode(Graphics2D idCard, Member2 member2) throws Exception {
-		BufferedImage barcode = generateBarcode(member2);
+	public void drawBarcode(Graphics2D idCard, Member member) throws Exception {
+		BufferedImage barcode = generateBarcode(member);
 		int barcodeCenter = barcode.getWidth()/2;
 		idCard.drawImage(barcode,idCenter-barcodeCenter,outerPaddingHeight+photoHeight+innerPaddingHeight+txtPanelHeight+innerPaddingHeight ,null);
 	}

@@ -1,9 +1,10 @@
 package com.atl.church.mms.com.atl.church.mms.service;
 
-import com.atl.church.mms.com.atl.church.mms.domain.Member2;
+import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.domain.Email;
 import com.atl.church.mms.com.atl.church.mms.domain.Family;
 import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
+import com.atl.church.mms.com.atl.church.mms.exception.MMSServiceException;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,29 +14,29 @@ import java.util.List;
 
 public interface MemberService {
 
-	Family getFamily(Long id);
+	Family getFamily(Long id) throws MMSServiceException;
 
 	Family createFamily(Family family);
 
-	Family addMemberToFamily(Member2 member2);
+	Family addMemberToFamily(Long familyId, Member member) throws MMSServiceException;
 
-	Family deleteMemberFromFamily(Long memberId);
+	Family deleteMemberFromFamily(Long familyId,Long memberId) throws MMSServiceException;
 
-	Member2 getMember(Long id);
+	List<Member> getMemberByFamilyId(long familyId);
 
-	Member2 createMember(Member2 member2);
+	Member getMember(Long id) throws MMSServiceException;
 
-	Member2 updateMember(Member2 member2);
+	Member updateMember(Member member) throws MMSServiceException;
 
-	boolean deleteMember(Long id);
+	boolean deleteMember(Long id) throws MMSServiceException;
 
-	List<Member2> search(MemberSearchCriteria searchCriteria);
+	List<Member> search(MemberSearchCriteria searchCriteria);
 
-	List<Member2> getAll(boolean includeInactive);
+	List<Member> getAll(boolean includeInactive);
 
 	boolean sendEmail(Email email) throws Exception;
 
 	File upload(File tempFile, Long id);
 
-	InputStream getMemberIdCard(String id) throws IOException;
+	InputStream getMemberIdCard(String id) throws IOException, MMSServiceException;
 }

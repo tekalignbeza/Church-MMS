@@ -1,14 +1,21 @@
 package com.atl.church.mms.com.atl.church.mms.rest;
 
 
-import com.atl.church.mms.com.atl.church.mms.domain.Member2;
+import com.atl.church.mms.com.atl.church.mms.RestValidator;
+import com.atl.church.mms.com.atl.church.mms.domain.Member;
 import com.atl.church.mms.com.atl.church.mms.domain.Family;
 import com.atl.church.mms.com.atl.church.mms.domain.MemberSearchCriteria;
 import com.atl.church.mms.com.atl.church.mms.dto.FamilyDTO;
 import com.atl.church.mms.com.atl.church.mms.dto.MemberDTO;
+import com.atl.church.mms.com.atl.church.mms.exception.MMSRestException;
+import com.atl.church.mms.com.atl.church.mms.exception.MMSServiceException;
+import com.atl.church.mms.com.atl.church.mms.factory.AttendaceFactory;
 import com.atl.church.mms.com.atl.church.mms.factory.FamilyFactory;
 import com.atl.church.mms.com.atl.church.mms.factory.MemberFactory;
+import com.atl.church.mms.com.atl.church.mms.factory.PaymentFactory;
+import com.atl.church.mms.com.atl.church.mms.service.MeetingService;
 import com.atl.church.mms.com.atl.church.mms.service.MemberService;
+import com.atl.church.mms.com.atl.church.mms.service.PaymentService;
 import com.atl.church.mms.com.atl.church.mms.utils.ImageStorage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,7 +28,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,12 +38,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.io.File;
 import java.util.List;
 
 @Controller
 @RequestMapping("/member")
-@Api(value="member2", description="Operations related to member2 services")
+@Api(value="member", description="Operations related to member services")
 public class MemberController {
 
 	@Autowired
@@ -45,74 +53,75 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	@Autowired
+	PaymentService paymentService;
+	@Autowired
+	PaymentFactory paymentFactory;
+	@Autowired
+	MeetingService meetingService;
+	@Autowired
+	AttendaceFactory attendaceFactory;
+	@Autowired
 	private MemberFactory memberFactory;
     @Autowired
 	private FamilyFactory familyFactory;
+	@Autowired
+	private RestValidator restValidator;
 
 	@ApiOperation(value = "Get a Family by Id or barCode")
 	@GetMapping("/family/{id}")
-	ResponseEntity<FamilyDTO> getFamily(@PathVariable String id){
-		Family family = memberService.getFamily(Long.parseLong(id));
-		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+	public ResponseEntity<FamilyDTO> getFamily(@PathVariable @Min(0) Long id) throws MMSServiceException {
+		Family family = memberService.getFamily(id);
+		FamilyDTO familyDTO = buildFamilyDTO(familyFactory.toDto(family), family.getId());
+		return new ResponseEntity<>(familyDTO, HttpStatus.OK);
 	}
 
 
 	@ApiOperation(value = "Create new family")
 	@PostMapping("/family/")
-	ResponseEntity<FamilyDTO> createFamily(@RequestBody FamilyDTO familyDTO){
+	public ResponseEntity<FamilyDTO> createFamily(@RequestBody @Valid FamilyDTO familyDTO) throws MMSRestException {
+		restValidator.validateForCreate(familyDTO);
 		Family family = memberService.createFamily(familyFactory.toDomain(familyDTO));
-		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+		return new ResponseEntity<>(buildFamilyDTO(familyFactory.toDto(family),family.getId()),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Add Member2 to family")
-	@PutMapping("/family/add")
-	ResponseEntity<FamilyDTO> addMemberToFamily(@RequestBody MemberDTO memberDTO){
-		Family family = memberService.addMemberToFamily(memberFactory.toDomain(memberDTO));
-		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+	@ApiOperation(value = "Add Member to family")
+	@PutMapping("/addFamilyMember/{familyId}")
+	public ResponseEntity<FamilyDTO> addMemberToFamily(@PathVariable @Min(0) Long familyId,@RequestBody @Valid MemberDTO memberDTO) throws MMSServiceException, MMSRestException {
+		restValidator.validateForCreate(memberDTO);
+		Family family = memberService.addMemberToFamily(familyId,memberFactory.toDomain(memberDTO));
+		return new ResponseEntity<>(buildFamilyDTO(familyFactory.toDto(family),family.getId()),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Remove Member2 from family")
-	@PutMapping("/family/remove")
-	ResponseEntity<FamilyDTO> removeMemberFromFamily(@PathVariable String id){
-		Family family = memberService.deleteMemberFromFamily(Long.parseLong(id));
-		return new ResponseEntity<FamilyDTO>(familyFactory.toDto(family),HttpStatus.OK);
+	@ApiOperation(value = "Remove Member from family")
+	@PutMapping("/removeFamilyMember/{familyId}/member/{memberId}")
+	public ResponseEntity<FamilyDTO> removeMemberFromFamily(@PathVariable @Min(0) Long familyId,@PathVariable @Min(0) Long memberId) throws MMSServiceException {
+		Family family = memberService.deleteMemberFromFamily(familyId,memberId);
+		return new ResponseEntity<>(buildFamilyDTO(familyFactory.toDto(family),family.getId()),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get a member2 by Id or barCode")
+	@ApiOperation(value = "Get a member by Id or barCode")
 	@GetMapping("/{id}")
-	 ResponseEntity<MemberDTO> getMember(@PathVariable String id){
-		Member2 member2 = memberService.getMember(Long.parseLong(id));
-		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member2),HttpStatus.OK);
+	public ResponseEntity<MemberDTO> getMember(@PathVariable @Min(0) Long id) throws MMSServiceException {
+		Member member = memberService.getMember(id);
+		return new ResponseEntity<>(memberFactory.toDto(member),HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Create new member2 the photo should be uploaded after the member2 is created")
-	@PostMapping("/")
-	ResponseEntity<MemberDTO> createMember(@RequestBody MemberDTO memberDTO){
-		Member2 member2 = memberService.createMember(memberFactory.toDomain(memberDTO));
-		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member2),HttpStatus.OK);
-	}
 
-	@ApiOperation(value = "Update a member2 info")
+	@ApiOperation(value = "Update a member info")
 	@PutMapping("/")
-	ResponseEntity<MemberDTO> updateMember(@RequestBody MemberDTO memberDTO){
-		Member2 member2 = memberService.updateMember(memberFactory.toDomain(memberDTO));
-		return new ResponseEntity<MemberDTO>(memberFactory.toDto(member2),HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "Remove a member2 by Id or barCode")
-	@DeleteMapping("/{id}")
-	ResponseEntity<Boolean> deleteMember(@PathVariable String id){
-		return new ResponseEntity<Boolean>(memberService.deleteMember(Long.parseLong(id)),HttpStatus.OK);
+	public ResponseEntity<MemberDTO> updateMember(@RequestBody @Valid MemberDTO memberDTO) throws MMSServiceException {
+		Member member = memberService.updateMember(memberFactory.toDomain(memberDTO));
+		return new ResponseEntity<>(memberFactory.toDto(member),HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Search members by different criteria")
 	@PostMapping("/search")
-	ResponseEntity<List<MemberDTO>> searchMember(@RequestBody MemberSearchCriteria searchCriteria){
-		List<Member2> member2s = memberService.search(searchCriteria);
-		return new ResponseEntity<List<MemberDTO>> (memberFactory.toDtos(member2s),HttpStatus.OK);
+	public ResponseEntity<List<MemberDTO>> searchMember(@RequestBody MemberSearchCriteria searchCriteria){
+		List<Member> members = memberService.search(searchCriteria);
+		return new ResponseEntity<> (memberFactory.toDtos(members),HttpStatus.OK);
 	}
 
-	@ApiOperation(produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,value = "Upload a member2 photo as Multi part File with Request parameter memberId")
+	@ApiOperation(produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,value = "Upload a member photo as Multi part File with Request parameter memberId")
 	@PostMapping(value = "/upload", consumes =  MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Resource> singleFileUpload(
 			@ApiParam(name = "file", value = "Select the file to Upload", required = true)
@@ -129,5 +138,12 @@ public class MemberController {
 				.contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
+		}
+
+		private FamilyDTO buildFamilyDTO(FamilyDTO familyDTO, long familyId){
+			familyDTO.setMemberDTOList(memberFactory.toDtos(memberService.getMemberByFamilyId(familyId)));
+			familyDTO.setPaymentDTOList(paymentFactory.toDtos(paymentService.getPaymentByFamilyId(familyId)));
+			familyDTO.setAttendanceDTOList(attendaceFactory.toDtos(meetingService.getAttendanceByFamilyId(familyId)));
+			return familyDTO;
 		}
 }
